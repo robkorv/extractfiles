@@ -70,9 +70,11 @@ def main():
                     os.mkdir(os.path.join(main_type_path, base_path))
                 filename = os.path.basename(source_path)
                 destination_path = os.path.join(main_type_path, base_path, filename)
-                assert not os.path.isfile(destination_path), destination_path
-                print 'copying  %r to %r' % (source_path, destination_path)
-                shutil.copyfile(source_path, destination_path)
+                if os.path.isfile(destination_path):
+                    print '%r already exists at %r' % (source_path, destination_path)
+                else:
+                    print 'copying  %r to %r' % (source_path, destination_path)
+                    shutil.copyfile(source_path, destination_path)
 
 
 if __name__ == '__main__':
