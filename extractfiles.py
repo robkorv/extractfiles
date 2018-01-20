@@ -41,6 +41,8 @@ def main():
             elif not mimetype:
                 print '%r no mimetype guessed' % (source_path)
 
+    all_files = []
+    [all_files.extend(x) for x in source_paths_by_type.values()]
     for main_type, source_paths in source_paths_by_type.items():
         if source_paths:
             main_type_path = os.path.join(destination_abspath, main_type)
@@ -48,9 +50,14 @@ def main():
                 os.mkdir(main_type_path)
 
             for source_path in source_paths:
+                print '%d files to go' % (len(all_files))
+                all_files.remove(source_path)
+                dirname = os.path.dirname(source_path)
+                base_path = os.path.basename(dirname)
                 filename = os.path.basename(source_path)
-                destination_path = os.path.join(main_type_path, filename)
+                destination_path = os.path.join(main_type_path, base_path, filename)
                 assert not os.path.exists(destination_path), destination_path
+                print 'copying  %r to %r' % (source_path, destination_path)
                 shutil.copyfile(source_path, destination_path)
 
 
