@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import argparse
-import os
 import mimetypes
+import os
 import shutil
 
 
@@ -18,9 +18,19 @@ def main():
     assert os.path.isdir(destination_abspath), destination_abspath
     assert not os.path.samefile(source_abspath, destination_abspath), (source_abspath, destination_abspath)
 
-    source_paths_by_type = {}
     source_mimetypes = []
+    if os.path.isfile('.source_mimetypes'):
+        with open('.source_mimetypes', 'r') as f:
+            source_mimetypes = f.read().split()
+
+    print source_mimetypes
+
     denied_mimetypes = []
+    if os.path.isfile('.denied_mimetypes'):
+        with open('.denied_mimetypes', 'r') as f:
+            denied_mimetypes = f.read().split()
+
+    source_paths_by_type = {}
     for dirpath, dirnames, filenames in os.walk(source_abspath):
         for filename in filenames:
             source_path = os.path.join(dirpath, filename)
@@ -34,9 +44,13 @@ def main():
                 print '%r with mimetype %r' % (source_path, mimetype)
                 user_input = raw_input('include files with mimetype %r? [y/N]' % (mimetype))
                 if user_input.lower() == 'y':
+                    with open('.source_mimetypes', 'w') as f:
+                        f.write(mimetype + '\n')
                     source_mimetypes.append(mimetype)
                     source_paths.append(source_path)
                 else:
+                    with open('.denied_mimetypes', 'w') as f:
+                        f.write(mimetype + '\n')
                     denied_mimetypes.append(mimetype)
             elif not mimetype:
                 print '%r no mimetype guessed' % (source_path)
@@ -58,7 +72,7 @@ def main():
                     os.mkdir(os.path.join(main_type_path, base_path))
                 filename = os.path.basename(source_path)
                 destination_path = os.path.join(main_type_path, base_path, filename)
-                assert not os.path.exists(destination_path), destination_path
+                assert not os.path.isfile(destination_path), destination_path
                 print 'copying  %r to %r' % (source_path, destination_path)
                 shutil.copyfile(source_path, destination_path)
 

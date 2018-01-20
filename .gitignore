@@ -102,3 +102,7 @@ ENV/
 
 # merge files
 *.orig
+
+# application files
+.source_mimetypes
+.denied_mimetypes
