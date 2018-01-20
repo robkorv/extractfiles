@@ -32,12 +32,12 @@ def main():
                 source_paths.append(source_path)
             elif mimetype and mimetype not in source_mimetypes and mimetype not in denied_mimetypes:
                 print '%r with mimetype %r' % (source_path, mimetype)
-                user_input = raw_input('include files with mimetype %r? [Y/n]' % (mimetype))
-                if user_input.lower() == 'n':
-                    denied_mimetypes.append(mimetype)
-                else:
+                user_input = raw_input('include files with mimetype %r? [y/N]' % (mimetype))
+                if user_input.lower() == 'y':
                     source_mimetypes.append(mimetype)
                     source_paths.append(source_path)
+                else:
+                    denied_mimetypes.append(mimetype)
             elif not mimetype:
                 print '%r no mimetype guessed' % (source_path)
 
