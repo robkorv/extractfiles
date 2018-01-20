@@ -23,8 +23,6 @@ def main():
         with open('.source_mimetypes', 'r') as f:
             source_mimetypes = f.read().split()
 
-    print source_mimetypes
-
     denied_mimetypes = []
     if os.path.isfile('.denied_mimetypes'):
         with open('.denied_mimetypes', 'r') as f:
