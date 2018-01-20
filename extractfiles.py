@@ -42,12 +42,12 @@ def main():
                 print '%r with mimetype %r' % (source_path, mimetype)
                 user_input = raw_input('include files with mimetype %r? [y/N]' % (mimetype))
                 if user_input.lower() == 'y':
-                    with open('.source_mimetypes', 'w') as f:
+                    with open('.source_mimetypes', 'a') as f:
                         f.write(mimetype + '\n')
                     source_mimetypes.append(mimetype)
                     source_paths.append(source_path)
                 else:
-                    with open('.denied_mimetypes', 'w') as f:
+                    with open('.denied_mimetypes', 'a') as f:
                         f.write(mimetype + '\n')
                     denied_mimetypes.append(mimetype)
             elif not mimetype:
