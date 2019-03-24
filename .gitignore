@@ -104,5 +104,10 @@ ENV/
 *.orig
 
 # application files
-.source_mimetypes
-.denied_mimetypes
+.copied_paths
+.empty_paths
+.error_paths
+.excluded_mimetypes
+.excluded_paths
+.included_mimetypes
+.included_paths
